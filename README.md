@@ -1,6 +1,6 @@
 # lab6
     
-#   <SOLID Principles>
+# SOLID Principles
     Single-responsibility principle (SRP)
 
     Open-closed principle (OCP)
@@ -12,4 +12,4 @@
     Dependency inversion Principle (DIP)
 
     
-#    <Design Pattern>
+# Design Pattern
