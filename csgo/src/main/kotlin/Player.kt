@@ -132,7 +132,7 @@ class Player(override val ctNames: MutableList<String>,
         }
     }
 
-    // function to plant the bomb
+    // Function to plant the bomb
     fun plant(isPlant: Boolean): Boolean {
         var result = false
         if (isPlant) {
