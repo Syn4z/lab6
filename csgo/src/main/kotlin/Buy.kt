@@ -3,8 +3,7 @@ class Buy: Weapons() {
     override var counterTerrorists: Int = 5
     override var terrorists: Int = 5
     override var health: Int = 100
-    override var timer: Int = 115
-    //
+
     private var categoryInput = 0
     private var typeInput = 0
     private var categoryChoice = mapOf("" to 0)
@@ -12,7 +11,6 @@ class Buy: Weapons() {
     private var i = 0
     override var armor = 0
 
-    // --TO DO--
     override var ctBalance: Int = 800
     override var tBalance: Int = 800
 
@@ -54,17 +52,31 @@ class Buy: Weapons() {
             }
             if ((categoryInput != 5) && (categoryInput != 6)) {
                  weapons += categoryChoice.filterValues { it == typeInput }.keys.toString()
+                 ctBalance -= 100
+                 tBalance -= 100
             }
             else {
                 when (categoryInput) {
-                    5 -> utility += categoryChoice.filterValues { it == typeInput }.keys.toString()
-                    6 -> utility += categoryChoice.filterValues { it == typeInput }.keys.toString()
+                    5 -> {
+                        utility += categoryChoice.filterValues { it == typeInput }.keys.toString()
+                        ctBalance -= 50
+                        tBalance -= 50
+                    }
+                    6 -> {
+                        utility += categoryChoice.filterValues { it == typeInput }.keys.toString()
+                        ctBalance -= 50
+                        tBalance -= 50
+                    }
                 }
             }
             if ((categoryChoice == ctEquipment) && (typeInput == 1)) {
                 armor = 100
+                ctBalance -= 50
+                tBalance -= 50
             } else if ((categoryChoice == ctEquipment) && (typeInput == 2)) {
                 armor = 200
+                ctBalance -= 50
+                tBalance -= 50
             }
             when (categoryInput) {
                 1 -> when (typeInput) {

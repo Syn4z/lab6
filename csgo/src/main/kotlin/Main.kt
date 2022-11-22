@@ -1,4 +1,3 @@
-
 fun main() {
     fun simulation() {
         var matchCount = 1
@@ -17,10 +16,8 @@ fun main() {
 
                 var ctEco = false; var tEco = false
                 if (ctStreak == 3) {
-                    //result = "CounterTerrorists"
                     ctEco = true
                 } else if (tStreak == 3) {
-                    //result = "CounterTerrorists"
                     tEco = true
                 }
 
