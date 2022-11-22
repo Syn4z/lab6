@@ -1,20 +1,21 @@
 class Buy: Weapons() {
     override var bomb: Boolean = false
+    override var health: Int = 100
+    override var armor = 0
+    override var weapons: MutableList<String> = arrayListOf()
+
     override var counterTerrorists: Int = 5
     override var terrorists: Int = 5
-    override var health: Int = 100
 
     private var categoryInput = 0
     private var typeInput = 0
     private var categoryChoice = mapOf("" to 0)
-    override var weapons: MutableList<String> = arrayListOf()
     private var i = 0
-    override var armor = 0
 
     override var ctBalance: Int = 800
     override var tBalance: Int = 800
 
-    var utility: MutableList<String> = arrayListOf()
+    private var utility: MutableList<String> = arrayListOf()
 
     // Buy menu
     fun read(n: Int): MutableList<String> {
@@ -42,7 +43,7 @@ class Buy: Weapons() {
                 }
             }
             when (typeInput) {
-                // the specific model of a category
+                // The specific model of a category
                 1 -> println("Weapon/Utility: ${categoryChoice.filterValues { it == 1 }.keys}")
                 2 -> println("Weapon/Utility: ${categoryChoice.filterValues { it == 2 }.keys}")
                 3 -> println("Weapon/Utility: ${categoryChoice.filterValues { it == 3 }.keys}")
@@ -50,7 +51,7 @@ class Buy: Weapons() {
                 5 -> println("Weapon/Utility: ${categoryChoice.filterValues { it == 5 }.keys}")
                 6 -> println("Weapon/Utility: ${categoryChoice.filterValues { it == 6 }.keys}")
             }
-            if ((categoryInput != 5) && (categoryInput != 6)) {
+            if ((categoryInput != 5) && (categoryInput != 6)) {     // Without utility
                  weapons += categoryChoice.filterValues { it == typeInput }.keys.toString()
                  ctBalance -= 100
                  tBalance -= 100
@@ -121,9 +122,9 @@ class Buy: Weapons() {
         var i = 0
         println("\nEco buy:")
         while (i < 5) {
-            val random = (1..4).random()
-            println("Weapon/Utility: ${ctPistol.filterValues { it == random }.keys}")
-            weapons += ctPistol.filterValues { it == random }.keys.toString()
+            val weapon = (1..4).random()
+            println("Weapon/Utility: ${ctPistol.filterValues { it == weapon }.keys}")
+            weapons += ctPistol.filterValues { it == weapon }.keys.toString()
             i++
         }
         println("\nOther team buy:")

@@ -3,9 +3,9 @@ interface Game {
     var armor: Int
     var bomb: Boolean
 
-    var ctBalance: Int
-    var tBalance: Int
-
     var counterTerrorists: Int
     var terrorists: Int
+
+    var ctBalance: Int
+    var tBalance: Int
 }
