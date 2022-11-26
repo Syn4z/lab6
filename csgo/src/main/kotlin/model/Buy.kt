@@ -1,7 +1,6 @@
 package model
 
 class Buy: Weapons() {
-    override var bomb: Boolean = false
     override var health: Int = 100
     override var armor = 0
     override var weapons: MutableList<String> = arrayListOf()

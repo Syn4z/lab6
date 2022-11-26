@@ -3,10 +3,9 @@ package model
 open class Player(
     final override val ctNames: MutableList<String>,
     final override val tNames: MutableList<String>
-): Game, Team, Shoot, Bomb {
+): Game, Team, Shoot {
     override var armor: Int = 0
     override var health: Int = 100
-    override var bomb: Boolean = false
 
     override val ctId: String = "(CT)"
     override val tId: String = "(T)"

@@ -1,5 +1,6 @@
 package controller
 
+import model.Bomb
 import model.Buy
 import model.Player
 import view.CsgoView
@@ -21,6 +22,7 @@ class CsgoController {
                     mutableListOf("Arnold", "Kyle", "Ringo", "Rip", "Zach")
                 )
                 val weapons = Buy()
+                val bomb = Bomb(entities.ctNames, entities.tNames)
 
                 // Eco statement
                 if (ctStreak == 3) {
@@ -34,13 +36,13 @@ class CsgoController {
                 }
 
                 // Win situation
-                if (entities.plant(true) || entities.terrorists > entities.counterTerrorists
+                if (bomb.plant(true) || entities.terrorists > entities.counterTerrorists
                     && entities.counterTerrorists == 0) {
                         printStatement.roundOver("t")
                         tStreak = 0
                         tRounds += 1
                         ctStreak += 1
-                } else if (!entities.plant(true) || entities.counterTerrorists > entities.terrorists) {
+                } else if (!bomb.plant(true) || entities.counterTerrorists > entities.terrorists) {
                     printStatement.roundOver("ct")
                     ctStreak = 0
                     ctRounds += 1
