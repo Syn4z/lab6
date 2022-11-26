@@ -1,14 +1,21 @@
-fun main() {
+package controller
+
+import model.Buy
+import model.Player
+import view.CsgoView
+
+class CsgoController {
     fun simulation() {
         var matchCount = 1
 
         while (true) {
-            println("Match nr: $matchCount")
+            val printStatement = CsgoView()
+            printStatement.printMatchStart(matchCount)
             var j = 1
             var ctRounds = 0; var tRounds = 0; var ctStreak = 0; var tStreak = 0
 
             while (j < 31) {
-                println("New Round started, round nr: $j\n")
+                printStatement.printRoundStart(j)
                 val entities = Player(
                     mutableListOf("John", "Chad", "Brian", "Cory", "Finn"),
                     mutableListOf("Arnold", "Kyle", "Ringo", "Rip", "Zach")
@@ -17,10 +24,10 @@ fun main() {
 
                 // Eco statement
                 if (ctStreak == 3) {
-                    println("CounterTerrorists lost 3 round in a row: $ctRounds VS $tRounds \nThey have an Economic round")
+                    printStatement.ecoRound(ctRounds, tRounds,"ct")
                     entities.dead(weapons.ecoRound(), true, 0, true)
                 } else if (tStreak == 3) {
-                    println("Terrorists lost 3 round in a row: $tRounds VS $ctRounds \nThey have an Economic round")
+                    printStatement.ecoRound(ctRounds, tRounds, "t")
                     entities.dead(weapons.ecoRound(), true, 0, true)
                 } else {
                     entities.dead(weapons.read(10), true, 200, false)
@@ -29,42 +36,40 @@ fun main() {
                 // Win situation
                 if (entities.plant(true) || entities.terrorists > entities.counterTerrorists
                     && entities.counterTerrorists == 0) {
-                        println("\n\tROUND IS OVER")
-                        println("\n\tTerrorists Win!")
+                        printStatement.roundOver("t")
                         tStreak = 0
                         tRounds += 1
                         ctStreak += 1
                 } else if (!entities.plant(true) || entities.counterTerrorists > entities.terrorists) {
-                    println("\n\tROUND IS OVER")
-                    println("\n\tCounterTerrorists Win!")
+                    printStatement.roundOver("ct")
                     ctStreak = 0
                     ctRounds += 1
                     tStreak += 1
                 }
 
                 // Round stats
-                println("\nRemaining CounterTerrorists: ${entities.counterTerrorists}")
-                println("Remaining Terrorists: ${entities.terrorists}")
-                println("\n\t CT won: $ctRounds rounds; T won: $tRounds rounds\n")
+                val ct = entities.counterTerrorists
+                val t = entities.terrorists
+                printStatement.roundStats(ct, t, ctRounds, tRounds)
 
                 // Match outcome possibilities
                 if (ctRounds == 16 && ctRounds > tRounds) {
-                    println("\nCounterTerrorists won the match")
+                    printStatement.matchOver("ct")
                     matchCount += 1
                     break
                 } else if (tRounds == 16 && tRounds > ctRounds) {
-                    println("\nTerrorists won the match")
+                    printStatement.matchOver("t")
                     matchCount += 1
                     break
                 } else if (ctRounds == 15 && tRounds == 15) {
-                    println("\nDraw")
+                    printStatement.matchOver("draw")
                     matchCount += 1
                     break
                 }
                 j++
             }
             // Continue simulation
-            println("Next match?(y/n)")
+            printStatement.matchOver("repeat")
             when (readln().lowercase()) {
                 "y" -> {
                     continue
@@ -72,9 +77,8 @@ fun main() {
                 "n" -> {
                     break
                 }
+                else -> break
             }
         }
     }
-
-    simulation()
 }

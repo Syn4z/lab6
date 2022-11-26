@@ -1,3 +1,5 @@
+package model
+
 interface Shoot: Game {
     fun shot(armorInput: Int) {
         armor = armorInput

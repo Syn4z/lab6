@@ -1,3 +1,5 @@
+package model
+
 abstract class Weapons: Game {
     abstract var weapons: MutableList<String>
 

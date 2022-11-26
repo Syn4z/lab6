@@ -1,3 +1,5 @@
+package model
+
 class Buy: Weapons() {
     override var bomb: Boolean = false
     override var health: Int = 100
@@ -17,7 +19,7 @@ class Buy: Weapons() {
 
     private var utility: MutableList<String> = arrayListOf()
 
-    // Buy menu
+    // model.Buy menu
     fun read(n: Int): MutableList<String> {
         while (i < n) {
             categoryInput = (1..6).random()

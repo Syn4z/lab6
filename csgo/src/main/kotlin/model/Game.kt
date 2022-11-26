@@ -1,3 +1,5 @@
+package model
+
 interface Game {
     var health: Int
     var armor: Int

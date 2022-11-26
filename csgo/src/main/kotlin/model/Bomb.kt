@@ -1,3 +1,5 @@
+package model
+
 interface Bomb: Game {
     // Function to plant the bomb
     fun plant(isPlant: Boolean): Boolean {
@@ -6,11 +8,11 @@ interface Bomb: Game {
             val planted = (0..3).random()
             if (planted == 1) {
                 bomb = true
-                println("\nBomb has been planted!")
+                println("\nmodel.Bomb has been planted!")
                 tBalance += 100
                 val explode = (0..5).random()
                 if (explode == 0 || counterTerrorists == 0) {
-                    println("\nBomb exploded!")
+                    println("\nmodel.Bomb exploded!")
                     tBalance += 500
                     result = true
                 } else if (counterTerrorists > 0) {

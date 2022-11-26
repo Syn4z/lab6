@@ -1,3 +1,5 @@
+package model
+
 open class Player(
     final override val ctNames: MutableList<String>,
     final override val tNames: MutableList<String>
