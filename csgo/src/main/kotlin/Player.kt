@@ -1,6 +1,7 @@
-class Player(override val ctNames: MutableList<String>,
-             override val tNames: MutableList<String>
-): Game, Team {
+open class Player(
+    final override val ctNames: MutableList<String>,
+    final override val tNames: MutableList<String>
+): Game, Team, Shoot, Bomb {
     override var armor: Int = 0
     override var health: Int = 100
     override var bomb: Boolean = false
@@ -15,52 +16,6 @@ class Player(override val ctNames: MutableList<String>,
     override var ctBalance: Int = 800
     override var tBalance: Int = 800
 
-    private fun shot(armorInput: Int) {
-        armor = armorInput
-        val lowDamage = listOf(10, 25, 50, 75)
-        val highDamage = listOf(10, 25, 50, 75, 100)
-        println("Shot!")
-
-        if (health > 0) {
-            when (armor) {
-                200 -> {
-                    health -= lowDamage.random()
-                    armor -= lowDamage.random()
-                }
-                100 -> {
-                    health -= highDamage.random()
-                    armor -= highDamage.random()
-                }
-                else -> {
-                    health -= highDamage.random()
-                }
-            }
-        }
-    }
-
-    private fun isShoot(armorInput: Int): Boolean {
-        var result = false
-        val isShot = (0..1).random()
-        val headshot = (0..9).random()
-
-        if (isShot == 1) {
-            if (headshot == 1 && armor <= 100) {
-                println("HeadShot!")
-                health -= 100
-                armor -= 100
-                result = true
-            } else if (headshot == 1 && armor == 200) {
-                println("HeadShot! Helmet broke!")
-                health -= 50
-                armor -= 100
-                result = true
-            } else {
-                shot(armorInput)
-                result = false
-            }
-        }
-        return result
-    }
 
     private fun killScreen(name: MutableList<String>, whoKilledName: MutableList<String>, wasKilled: String,
                            whoKilled: String, weapon: MutableList<String>, suicide: Boolean): MutableList<String> {
@@ -130,30 +85,6 @@ class Player(override val ctNames: MutableList<String>,
                 killScreen(shuffledTNames, shuffledCtNames, tId, ctId, shuffledWeapon, true)
             }
         }
-    }
-
-    // Function to plant the bomb
-    fun plant(isPlant: Boolean): Boolean {
-        var result = false
-        if (isPlant) {
-            val planted = (0..3).random()
-            if (planted == 1) {
-                bomb = true
-                println("\nBomb has been planted!")
-                tBalance += 100
-                val explode = (0..5).random()
-                if (explode == 0 || counterTerrorists == 0) {
-                    println("\nBomb exploded!")
-                    tBalance += 500
-                    result = true
-                } else if (counterTerrorists > 0) {
-                    println("\nCounterTerrorists defused the bomb")
-                    ctBalance += 500
-                    result = false
-                }
-            }
-        }
-        return result
     }
 
     private fun resetStats() {
