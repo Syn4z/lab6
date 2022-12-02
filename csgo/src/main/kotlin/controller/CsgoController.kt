@@ -1,8 +1,6 @@
 package controller
 
-import model.Bomb
-import model.Buy
-import model.Player
+import model.CsgoModel
 import view.CsgoView
 
 class CsgoController {
@@ -11,25 +9,23 @@ class CsgoController {
 
         while (true) {
             val printStatement = CsgoView()
-            printStatement.printMatchStart(matchCount)
+            val rounds = CsgoModel()
+
+            printStatement.matchStart(matchCount)
             var j = 1
-            var ctRounds = 0; var tRounds = 0; var ctStreak = 0; var tStreak = 0
 
             while (j < 31) {
-                printStatement.printRoundStart(j)
-                val entities = Player(
-                    mutableListOf("John", "Chad", "Brian", "Cory", "Finn"),
-                    mutableListOf("Arnold", "Kyle", "Ringo", "Rip", "Zach")
-                )
-                val weapons = Buy()
-                val bomb = Bomb(entities.ctNames, entities.tNames)
+                printStatement.roundStart(j)
+                val entities = CsgoModel().entities()
+                val weapons = CsgoModel().weapons()
+                val bomb = CsgoModel().bomb(entities)
 
                 // Eco statement
-                if (ctStreak == 3) {
-                    printStatement.ecoRound(ctRounds, tRounds,"ct")
+                if (rounds.ctStreak == 3) {
+                    printStatement.ecoRound(rounds.ctRounds, rounds.tRounds,"ct")
                     entities.dead(weapons.ecoRound(), true, 0, true)
-                } else if (tStreak == 3) {
-                    printStatement.ecoRound(ctRounds, tRounds, "t")
+                } else if (rounds.tStreak == 3) {
+                    printStatement.ecoRound(rounds.ctRounds, rounds.tRounds, "t")
                     entities.dead(weapons.ecoRound(), true, 0, true)
                 } else {
                     entities.dead(weapons.read(10), true, 200, false)
@@ -39,31 +35,27 @@ class CsgoController {
                 if (bomb.plant(true) || entities.terrorists > entities.counterTerrorists
                     && entities.counterTerrorists == 0) {
                         printStatement.roundOver("t")
-                        tStreak = 0
-                        tRounds += 1
-                        ctStreak += 1
+                        rounds.tStreak = 0
+                        rounds.addRounds("t")
                 } else if (!bomb.plant(true) || entities.counterTerrorists > entities.terrorists) {
                     printStatement.roundOver("ct")
-                    ctStreak = 0
-                    ctRounds += 1
-                    tStreak += 1
+                    rounds.ctStreak = 0
+                    rounds.addRounds("ct")
                 }
 
                 // Round stats
-                val ct = entities.counterTerrorists
-                val t = entities.terrorists
-                printStatement.roundStats(ct, t, ctRounds, tRounds)
+                printStatement.roundStats(entities.counterTerrorists, entities.terrorists, rounds.ctRounds, rounds.tRounds)
 
                 // Match outcome possibilities
-                if (ctRounds == 16 && ctRounds > tRounds) {
+                if (rounds.ctRounds == 16 && rounds.ctRounds > rounds.tRounds) {
                     printStatement.matchOver("ct")
                     matchCount += 1
                     break
-                } else if (tRounds == 16 && tRounds > ctRounds) {
+                } else if (rounds.tRounds == 16 && rounds.tRounds > rounds.ctRounds) {
                     printStatement.matchOver("t")
                     matchCount += 1
                     break
-                } else if (ctRounds == 15 && tRounds == 15) {
+                } else if (rounds.ctRounds == 15 && rounds.tRounds == 15) {
                     printStatement.matchOver("draw")
                     matchCount += 1
                     break

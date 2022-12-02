@@ -1,11 +1,11 @@
 package view
 
 class CsgoView {
-    fun printMatchStart(matchCount: Int) {
+    fun matchStart(matchCount: Int) {
         return println("Match nr: $matchCount")
     }
 
-    fun printRoundStart(roundNr: Int) {
+    fun roundStart(roundNr: Int) {
         println("New Round started, round nr: $roundNr\n")
     }
 
